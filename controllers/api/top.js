@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const { Player } = require('../../models');
 
-router.post('/', function (req, res) {
+router.get('/', function (req, res) {
   Player.findAll({
     order: [['score', 'DESC']],
     limit: 3
