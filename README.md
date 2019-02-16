@@ -75,3 +75,12 @@ sudo apt install nodejs npm
 ```
 For any else distribution report to this page https://nodejs.org/en/download/package-manager/
 
+
+
+---
+
+Questions:
+
+1 - Si il y a des requêtes erronées type POST sans score ou sans playerName? 
+2 - Je peux utiliser les libs que je souhaite ?
+3 - 
