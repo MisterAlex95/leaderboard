@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const { pick } = require('lodash');
-const { Player } = require('../../db/models');
+const { Player } = require('../../models');
 
 router.post('/:playerName', function (req, res) {
   const playerName = req.params.playerName;
