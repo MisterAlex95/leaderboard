@@ -19,11 +19,8 @@ function rateLimiter(PlayerName, cb) {
         })
         .expire(currentKey, 60, (err, nbr) => {
           expire = (nbr) ? true : false;
-          console.log(`EXPIRE ${expire}`)
         })
         .exec((err, reply) => {
-          // console.log(`EXEC: ${reply}`)
-          // console.log(`EXEC: ${err}`)
           cb(expire);
         });
     }
