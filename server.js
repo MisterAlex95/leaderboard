@@ -19,7 +19,7 @@ app.use(jsonParser);
 // Use controllers
 app.use(require('./controllers'));
 app.use(function (req, res) {
-  res.json({ error: { code: 404, message: 'Resource not found' } });
+  res.status(404).json({ message: 'Resource not found' });
 });
 
 server.listen(PORT);
