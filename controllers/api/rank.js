@@ -10,8 +10,14 @@ router.get('/:playerName', function (req, res) {
     .query(`SELECT *, (SELECT COALESCE(MAX(id)+1, 0) FROM Players) as total FROM (SELECT *, RANK() OVER (ORDER BY score DESC) rank FROM Players) WHERE name = '${playerName}'`, {
       model: Player,
     })
-    .then(player => {
-      res.json(player).end();
+    .then((players) => {
+      if (players.length == 0)
+        res.status(404).json({ message: "Player is not found" }).end();
+      else
+        res.status(200).json(players[0]).end();
+    })
+    .catch((err) => {
+      res.status(500).json({ message: "An unhandled exception happened" }).end();
     })
 });
 
