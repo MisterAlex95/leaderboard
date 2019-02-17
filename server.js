@@ -8,17 +8,21 @@ const jsonParser = require('body-parser').json();
 
 const app = express();
 const server = require('http').Server(app);
-
-app.use(cors());
-app.use(bodyParser.urlencoded({
-  extended: true
-}));
-app.use(jsonParser);
 const PORT = process.env.SERVER_PORT || 3000;
 
+app.use(cors());
+
+// Parse application/json and look for raw text
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(jsonParser);
+
+// Use controllers
 app.use(require('./controllers'));
 app.use(function (req, res) {
   res.json({ error: { code: 404, message: 'Resource not found' } });
 });
 
 server.listen(PORT);
+console.log("Listening on port " + PORT);
+
+module.exports = app;

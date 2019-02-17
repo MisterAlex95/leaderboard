@@ -34,7 +34,7 @@ router.post('/:playerName', function (req, res) {
         // res.json({ data }).end();
       }).catch((err) => {
         console.log(err);
-        res.json({
+        res.status(500).json({
           error: {
             code: err.code || 500,
             message: err.message || err.code,
@@ -43,7 +43,7 @@ router.post('/:playerName', function (req, res) {
       })
     } else {
       if (!score) {
-        res.json({ statusCode: 500, message: "Missing required parameters score" }).end();
+        res.status(500).json({ statusCode: 500, message: "Missing required parameters score" }).end();
       } else {
         RT.rateLimiter(playerName, (limitReach) => {
           if (limitReach) {
@@ -59,10 +59,10 @@ router.post('/:playerName', function (req, res) {
                 if (rowsUpdated)
                   res.json({ statusCode: 200, message: "OK" }).end();
                 else
-                  res.json({ statusCode: 500, message: "An unhandled exception happened" }).end();
+                  res.status(500).json({ statusCode: 500, message: "An unhandled exception happened" }).end();
               });
           } else {
-            res.json({ statusCode: 500, message: "too many requests" }).end();
+            res.status(500).json({ statusCode: 500, message: "Too many requests" }).end();
           }
         });
       }
