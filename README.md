@@ -76,11 +76,10 @@ sudo apt install nodejs npm
 For any else distribution report to this page https://nodejs.org/en/download/package-manager/
 
 
-
 ---
 
 Questions:
 
-1 - Si il y a des requêtes erronées type POST sans score ou sans playerName? 
-2 - Je peux utiliser les libs que je souhaite ?
-3 - 
+ - Si il y a des requêtes erronées type POST sans score ou sans playerName je dois seulement renvoyer une réponse avec le status 500 ou je peux specifier le message ("Header parameter 'PlayerName' is missing." ou "Body parameter 'score' is missing") ? (Ce qui me semble plus utile pour le potentiel client.)
+ - Je peux utiliser les libs que je souhaite (je pense notamment à sequelize) ?
+
