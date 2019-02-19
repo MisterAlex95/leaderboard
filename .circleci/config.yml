@@ -13,4 +13,4 @@ jobs:
           command: npm test
       - deploy:
           name: pm2 deploy
-          command: pm2 deploy staging
+          command: ./node_modules/.bin/pm2 deploy staging
