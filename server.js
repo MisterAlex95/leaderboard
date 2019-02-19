@@ -16,7 +16,7 @@ const PORT = process.env.SERVER_PORT || 3000;
 app.use(cors());
 
 
-app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+app.use('/documentation', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 // Parse application/json and look for raw text
 app.use(bodyParser.urlencoded({ extended: true }));

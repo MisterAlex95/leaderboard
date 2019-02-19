@@ -25,31 +25,27 @@
     "application/json"
   ],
   "paths": {
-    "/users": {
+    "/add/:username": {
       "post": {
         "tags": [
-          "Users"
+          "Score"
         ],
-        "description": "Create new user in system",
+        "description": "Create or update new score for a particular username in system",
         "parameters": [
           {
-            "name": "user",
-            "in": "body",
-            "description": "User that we want to create",
+            "name": "playerName",
+            "in": "header",
+            "description": "Score that we want to create or upadet",
             "schema": {
-              "$ref": "#/definitions/User"
+              "$ref": "#/definitions/Score"
             }
           }
         ],
         "produces": [
-          "application/json"
         ],
         "responses": {
           "200": {
-            "description": "New user is created",
-            "schema": {
-              "$ref": "#/definitions/User"
-            }
+            "description": "Ok"
           }
         }
       },
