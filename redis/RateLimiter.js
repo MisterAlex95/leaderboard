@@ -1,7 +1,7 @@
 const client = require('./index');
 
 client.on("error", function (err) {
-  console.err("Error " + err);
+  console.error("Error " + err);
 });
 
 async function rateLimiter(PlayerName) {
