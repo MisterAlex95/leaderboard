@@ -1,10 +1,10 @@
 const client = require('./index');
 
 client.on("error", function (err) {
-  console.log("Error " + err);
+  console.err("Error " + err);
 });
 
-function rateLimiter(PlayerName, cb) {
+async function rateLimiter(PlayerName) {
   const d = new Date();
   const currentMinute = d.getMinutes();
   const currentKey = `${PlayerName}:${currentMinute}`;
@@ -12,16 +12,15 @@ function rateLimiter(PlayerName, cb) {
   client.get(currentKey, (err, value) => {
     let expire = false;
     if (value && value >= 5) {
-      cb(false);
+      return false;
     } else {
       client.multi()
-        .incr(currentKey, (err, reply) => {
-        })
+        .incr(currentKey, (err, reply) => {})
         .expire(currentKey, 60, (err, nbr) => {
           expire = (nbr) ? true : false;
         })
         .exec((err, reply) => {
-          cb(expire);
+          return expire;
         });
     }
   });

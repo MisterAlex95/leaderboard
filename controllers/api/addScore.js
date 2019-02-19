@@ -3,63 +3,87 @@ const router = express.Router();
 const { Player } = require('../../models');
 const { rateLimiter } = require('../../redis/RateLimiter');
 
-router.post('/:playerName', function (req, res) {
-  const playerName = req.params.playerName;
-  const score = Number(req.body.score);
-  if (isNaN(score)) return res.status(500).json({ message: 'Score should be a number' });
+/**
+ * 
+ * @param parameters {name, score}
+ * @param res
+ * @returns
+ */
+async function createPlayerScore(parameters, res) {
+  const player = await Player.create({ name: parameters.playerName, score: parameters.score })
+  if (!player)
+    return res.status(500).json({ message: "An unhandled exception happened" }).end();
+  return res.status(200).end();
+}
 
-  Player
-    .findOne({ where: { name: playerName } })
-    .then((player) => {
-      if (!player) {
-        Promise.resolve({ score, playerName })
-          .then((_params) => {
-            if (!_params || !_params.score || !_params.playerName || _params.playerName == '') {
-              return Promise.reject({
-                error: {
-                  message: (!_params.score) ? 'Missing required parameters score' : 'Missing required header playerName'
-                }
-              });
-            }
-            return _params;
-          })
-          .then((_params) => {
-            return Player.create({ name: _params.playerName, score: _params.score })
-          })
-          .then((data) => {
-            res.status(200).end();
-          })
-          .catch((err) => {
-            res.status(500).json({ message: "An unhandled exception happened" }).end();
-          })
-      } else {
-        if (!score) {
-          res.status(500).json({ message: "Missing required parameters score" }).end();
-        } else {
-          rateLimiter(playerName, (limitReach) => {
-            if (limitReach) {
-              Player.update({
-                name: playerName,
-                score: req.body.score
-              }, {
-                  where:
-                  {
-                    name: playerName
-                  }
-                })
-                .then((rowsUpdated) => {
-                  if (rowsUpdated)
-                    res.end();
-                  else
-                    res.status(500).json({ message: "An unhandled exception happened" }).end();
-                });
-            } else {
-              res.status(500).json({ message: "Too many requests" }).end();
-            }
-          });
-        }
-      }
-    });
+/**
+ * 
+ * @param parameters {name, score}
+ * @param res
+ * @returns
+ */
+async function updatePlayerScore(parameters, res) {
+  const canIRetrieveScores = rateLimiter(parameters.name);
+  if (!canIRetrieveScores)
+    return res.status(500).json({ message: "Too many requests" }).end();
+
+  const rowsUpdated = await Player.update(parameters, { where: { name: parameters.name } });
+  if (!rowsUpdated)
+    return res.status(500).json({ message: "An unhandled exception happened" }).end();
+  return res.end();
+}
+
+/**
+ * 
+ * @param parameters {name, score}
+ * @param res
+ * @returns
+ */
+async function gestionScore(parameters, res) {
+  const player = await Player.findOne({ where: { name: parameters.name } });
+  if (!player) {
+    return createPlayerScore(parameters, res)
+  } else {
+    return updatePlayerScore(parameters, res);
+  }  
+}
+
+/**
+ * 
+ * @param res
+ * @param req
+ * @returns
+ */
+function checkParameters(res, req) {
+  const name = req.params.playerName;
+  let score = req.body.score;
+
+  if (name === null) {
+    return {error: 'Missing player name parameter'};
+  }
+  if (score === null) {
+    return {error: 'Missing score parameter' };
+  }
+  score = Number(score);
+  if (isNaN(score)) {
+    return {error:  'Score should be a number' };
+  }
+
+  return {
+    score: score,
+    name: name
+  }
+}
+
+router.post('/:playerName', function (req, res) {
+  // Retrieves query parameters.
+  const parameters = checkParameters(res, req);
+
+  // Check errors
+  if (parameters.error) {
+    return res.status(500).json(parameters);
+  }
+  return gestionScore(parameters, res);
 });
 
 module.exports = router;

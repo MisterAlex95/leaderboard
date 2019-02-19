@@ -22,6 +22,10 @@ app.use(function (req, res) {
   res.status(404).json({ message: 'Resource not found' });
 });
 
+function stop() {
+  app.close();
+}
+
 server.listen(PORT);
 console.log("Listening on port " + PORT);
 
