@@ -6,11 +6,11 @@ jobs:
     steps:
       - checkout
       - run:
-        name: install-dependencies
-        command: npm install
+          name: install-dependencies
+          command: npm install
       - run:
-        name: tests
-        command: npm test
+          name: tests
+          command: npm test
       - deploy:
-            name: pm2 deploy
-            command: pm2 deploy staging
+          name: pm2 deploy
+          command: pm2 deploy staging
