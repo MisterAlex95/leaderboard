@@ -43,7 +43,7 @@ jobs:
       - run:
           name: Deploy Over SSH
           command: |
-            scp -rp ~/clone/* $SSH_USER@$SSH_HOST:/leaderboard/
+            scp -rp ~/* $SSH_USER@$SSH_HOST:/leaderboard/current/
 
 workflows:
   version: 2
