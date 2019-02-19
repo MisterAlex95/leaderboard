@@ -1,5 +1,7 @@
 # Leaderboard
 
+[![CircleCI](https://circleci.com/gh/MisterAlex95/leaderboard/tree/develop.svg?style=svg)](https://circleci.com/gh/MisterAlex95/leaderboard/tree/develop)
+
 ## How to setup
 
 I assume that you already use a `terminal` and know how it works. 
