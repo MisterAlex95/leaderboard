@@ -25,7 +25,7 @@ module.exports = {
       user : 'deploy',
       host : 'alexdana.me',
       ref  : 'origin/develop',
-      repo : 'https://github.com/MisterAlex95/leaderboard.git',
+      repo : 'git@github.com:misteralex95/leaderboard.git',
       path : '/home/deploy/leaderboard',
       'post-deploy' : '. ~/.bashrc && npm install && pm2 reload ecosystem.config.js --env staging && npm run bundle',
       env  : {
