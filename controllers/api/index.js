@@ -3,5 +3,5 @@ const router = express.Router();
 
 router.use('/top/', require('./top'));
 router.use('/rank/', require('./rank'));
-router.use('/add/', require('./addScore'));
+router.use('/add/', require('./addScore').router);
 module.exports = router;

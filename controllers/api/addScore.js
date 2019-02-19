@@ -10,7 +10,8 @@ const { rateLimiter } = require('../../redis/RateLimiter');
  * @returns
  */
 async function createPlayerScore(parameters, res) {
-  const player = await Player.create({ name: parameters.playerName, score: parameters.score })
+  const player = await Player.create({ name: parameters.name, score: parameters.score })
+
   if (!player)
     return res.status(500).json({ message: "An unhandled exception happened" }).end();
   return res.status(200).end();
@@ -23,10 +24,6 @@ async function createPlayerScore(parameters, res) {
  * @returns
  */
 async function updatePlayerScore(parameters, res) {
-  const canIRetrieveScores = rateLimiter(parameters.name);
-  if (!canIRetrieveScores)
-    return res.status(500).json({ message: "Too many requests" }).end();
-
   const rowsUpdated = await Player.update(parameters, { where: { name: parameters.name } });
   if (!rowsUpdated)
     return res.status(500).json({ message: "An unhandled exception happened" }).end();
@@ -40,7 +37,13 @@ async function updatePlayerScore(parameters, res) {
  * @returns
  */
 async function gestionScore(parameters, res) {
+  await rateLimiter(parameters.name, (canIRetrieveScores) => {
+    if (!canIRetrieveScores)
+      return res.status(500).json({ message: "Too many requests" }).end();
+  });
+
   const player = await Player.findOne({ where: { name: parameters.name } });
+
   if (!player) {
     return createPlayerScore(parameters, res)
   } else {
@@ -86,4 +89,4 @@ router.post('/:playerName', function (req, res) {
   return gestionScore(parameters, res);
 });
 
-module.exports = router;
+module.exports = { router, checkParameters };

@@ -4,15 +4,15 @@ client.on("error", function (err) {
   console.error("Error " + err);
 });
 
-async function rateLimiter(PlayerName) {
+function rateLimiter(name, cb) {
   const d = new Date();
   const currentMinute = d.getMinutes();
-  const currentKey = `${PlayerName}:${currentMinute}`;
+  const currentKey = `${name}:${currentMinute}`;
 
   client.get(currentKey, (err, value) => {
     let expire = false;
     if (value && value >= 5) {
-      return false;
+      cb(false);
     } else {
       client.multi()
         .incr(currentKey, (err, reply) => {})
@@ -20,12 +20,11 @@ async function rateLimiter(PlayerName) {
           expire = (nbr) ? true : false;
         })
         .exec((err, reply) => {
-          return expire;
+          cb(expire);
         });
     }
   });
 }
-
 
 module.exports = {
   rateLimiter

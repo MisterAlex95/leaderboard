@@ -14,7 +14,7 @@ chai.use(chaiHttp);
 // Test missing parameters
 describe('Test missing parameters', () => {
   describe('/GET rank', () => {
-    it('it should have a 404 error: no user', (done) => {
+    it ('it should have a 404 error: no user', (done) => {
       chai.request(server)
         .get('/leaderboard/rank/')
         .end((err, res) => {
@@ -23,7 +23,7 @@ describe('Test missing parameters', () => {
         });
     });
 
-    it('it should have a 404 error: user not found', (done) => {
+    it ('it should have a 404 error: user not found', (done) => {
       chai.request(server)
         .get('/leaderboard/rank/nobody')
         .end((err, res) => {
@@ -34,7 +34,7 @@ describe('Test missing parameters', () => {
   });
 
   describe('/POST score', () => {
-    it('it should have a 500 error: no score', (done) => {
+    it ('it should have a 500 error: no score', (done) => {
       chai.request(server)
         .post('/leaderboard/add/Alex')
         .send({ })
@@ -44,7 +44,7 @@ describe('Test missing parameters', () => {
         });
     });
 
-    it('it should have a 404 error: no user', (done) => {
+    it ('it should have a 404 error: no user', (done) => {
       chai.request(server)
         .post('/leaderboard/add/')
         .send({ score: 135 })
@@ -55,7 +55,7 @@ describe('Test missing parameters', () => {
     });
 
 
-    it('it should have a 404 error: no user & no score', (done) => {
+    it ('it should have a 404 error: no user & no score', (done) => {
       chai.request(server)
         .post('/leaderboard/add/')
         .send({ })
@@ -66,7 +66,6 @@ describe('Test missing parameters', () => {
     });
   });
 });
-
 
 // Check empty database
 describe('Test empty database', () => {
@@ -80,7 +79,7 @@ describe('Test empty database', () => {
   });
 
   describe('/GET top', () => {
-    it('it should GET top 3 empty', (done) => {
+    it ('it should GET top 3 empty', (done) => {
       chai.request(server)
         .get('/leaderboard/top')
         .end((err, res) => {
@@ -93,7 +92,7 @@ describe('Test empty database', () => {
   });
 
   describe('/GET rank', () => {
-    it('it should get an empty array', (done) => {
+    it ('it should get an empty array', (done) => {
       chai.request(server)
         .get('/leaderboard/rank/nobody')
         .end((err, res) => {
@@ -104,7 +103,7 @@ describe('Test empty database', () => {
   });
 
   describe('/POST score', () => {
-    it('it should post a score using the Alex playerName', (done) => {
+    it ('it should post a score using the Alex playerName', (done) => {
       chai.request(server)
         .post('/leaderboard/add/Alex')
         .send({ score: 135 })
@@ -112,6 +111,54 @@ describe('Test empty database', () => {
           res.should.have.status(200);
           done();
         });
+    });
+  });
+});
+
+describe('/POST score rate limiter', () => {
+  it ('it should post a score using the Alex playerName 1', (done) => {
+    chai.request(server)
+      .post('/leaderboard/add/Alex')
+      .send({ score: 135 })
+      .end((err, res) => {
+        res.should.have.status(200);
+        done();
+    });
+  });
+  it ('it should post a score using the Alex playerName 2', (done) => {
+    chai.request(server)
+      .post('/leaderboard/add/Alex')
+      .send({ score: 135 })
+      .end((err, res) => {
+        res.should.have.status(200);
+        done();
+    });
+  });
+  it ('it should post a score using the Alex playerName 3', (done) => {
+    chai.request(server)
+      .post('/leaderboard/add/Alex')
+      .send({ score: 135 })
+      .end((err, res) => {
+        res.should.have.status(200);
+        done();
+    });
+  });
+  it ('it should post a score using the Alex playerName 4', (done) => {
+    chai.request(server)
+      .post('/leaderboard/add/Alex')
+      .send({ score: 135 })
+      .end((err, res) => {
+        res.should.have.status(200);
+        done();
+    });
+  });
+  it ('it should post a score using the Alex playerName 5', (done) => {
+    chai.request(server)
+      .post('/leaderboard/add/Alex')
+      .send({ score: 135 })
+      .end((err, res) => {
+        res.should.have.status(500);
+        done();
     });
   });
 });
