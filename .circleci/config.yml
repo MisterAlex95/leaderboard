@@ -13,7 +13,7 @@ jobs:
       - restore_cache:
           key: dependency-cache-{{ checksum "package.json" }}
       - run:
-          name: Install npm wee
+          name: Install npm
           command: npm install
       - save_cache:
           key: dependency-cache-{{ checksum "package.json" }}
@@ -36,6 +36,14 @@ jobs:
       - store_artifacts:
           path: coverage
           prefix: coverage
+  deploy:
+    docker:
+      - image: circleci/node:8.9.4
+    steps:
+      - run:
+          name: Deploy Over SSH
+          command: |
+            scp -rp ~/clone/* $SSH_USER@$SSH_HOST:/leaderboard/
 
 workflows:
   version: 2
