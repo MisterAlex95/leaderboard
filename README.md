@@ -1,6 +1,15 @@
 # Leaderboard
 
-[![CircleCI](https://circleci.com/gh/MisterAlex95/leaderboard/tree/develop.svg?style=svg)](https://circleci.com/gh/MisterAlex95/leaderboard/tree/develop)
+## What is the benefit of using Redis to implement the rate limiter? 
+
+Using Redis to implement the rate limiter 
+Use Redis in the implementation of the rate limiter to save the database of calls that could overload. 
+Redis allows precisely to limit the number of requests.
+Especially in our case, we use SQLite which has a system of "Concurrent Access" which could lengthen the time of the requests if this number is too important simultaneously.
+
+Redis has specifics functions to implement a rate limiter like `expire` which use to specify a lifetime of a key.
+
+## OLD README
 
 ## How to setup
 

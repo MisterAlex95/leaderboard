@@ -5,9 +5,9 @@ client.on("error", function (err) {
 });
 
 function rateLimiter(name, cb) {
-  const d = new Date();
-  const currentMinute = d.getMinutes();
-  const currentKey = `${name}:${currentMinute}`;
+  // const d = new Date();
+  // const currentMinute = d.getMinutes();
+  const currentKey = `${name}`;//:${currentMinute}`;
 
   client.get(currentKey, (err, value) => {
     let expire = false;
@@ -15,7 +15,7 @@ function rateLimiter(name, cb) {
       cb(false);
     } else {
       client.multi()
-        .incr(currentKey, (err, reply) => {})
+        .incr(currentKey, (err, reply) => { })
         .expire(currentKey, 60, (err, nbr) => {
           expire = (nbr) ? true : false;
         })
