@@ -3,157 +3,171 @@
   "info": {
     "version": "1.0.0",
     "title": "Leaderboard API",
-    "description": "Leaderboard API",
-    "license": {
-    }
+    "description": "Leaderboard API"
   },
   "host": "localhost:3001",
   "basePath": "/leaderboard/",
   "tags": [
     {
-      "name": "Users",
+      "name": "Leaderboard",
       "description": "API for users in the system"
     }
   ],
   "schemes": [
     "http"
   ],
-  "consumes": [
-    "application/json"
-  ],
-  "produces": [
-    "application/json"
-  ],
   "paths": {
-    "/add/:username": {
+    "/add/{playerName}": {
       "post": {
         "tags": [
-          "Score"
+          "Leaderboard"
         ],
         "description": "Create or update new score for a particular username in system",
+        "consumes": [
+          "application/json"
+        ],
         "parameters": [
           {
             "name": "playerName",
-            "in": "header",
-            "description": "Score that we want to create or upadet",
+            "in": "path",
+            "required": true,
+            "description": "Player's name",
             "schema": {
-              "$ref": "#/definitions/Score"
+              "type": "string",
+              "example": "Alex"
+            }
+          },
+          {
+            "name": "score",
+            "in": "body",
+            "required": true,
+            "description": "Player' score",
+            "schema": {
+              "properties": {
+                "score": {
+                  "type": "integer",
+                  "example": 135
+                }
+              }
             }
           }
-        ],
-        "produces": [
         ],
         "responses": {
           "200": {
             "description": "Ok"
-          }
-        }
-      },
-      "get": {
-        "tags": [
-          "Users"
-        ],
-        "summary": "Get all users in system",
-        "responses": {
-          "200": {
-            "description": "OK",
-            "schema": {
-              "$ref": "#/definitions/Users"
-            }
+          },
+          "500": {
+            "description": "Unexpected error."
           }
         }
       }
     },
-    "/users/{userId}": {
-      "parameters": [
-        {
-          "name": "userId",
-          "in": "path",
-          "required": true,
-          "description": "ID of user that we want to find",
-          "type": "string"
-        }
-      ],
+    "/top": {
       "get": {
         "tags": [
-          "Users"
+          "Leaderboard"
         ],
-        "summary": "Get user with given ID",
-        "responses": {
-          "200": {
-            "description": "User is found",
-            "schema": {
-              "$ref": "#/definitions/User"
-            }
-          }
-        }
-      },
-      "delete": {
-        "summary": "Delete user with given ID",
-        "tags": [
-          "Users"
+        "description": "Get current top (3 bests score)",
+        "produces": [
+          "application/json"
         ],
         "responses": {
           "200": {
-            "description": "User is deleted",
+            "description": "Ok",
             "schema": {
-              "$ref": "#/definitions/User"
+              "type": "array",
+              "minItems": 0,
+              "maxItems": 3,
+              "items": {
+                "$ref": "#/definitions/Player"
+              }
             }
+          },
+          "500": {
+            "description": "Unexpected error."
           }
         }
-      },
-      "put": {
-        "summary": "Update user with give ID",
+      }
+    },
+    "/rank/{playerName}": {
+      "get": {
         "tags": [
-          "Users"
+          "Leaderboard"
+        ],
+        "description": "Get current place in the leaderboard and number of player",
+        "produces": [
+          "application/json"
         ],
         "parameters": [
           {
-            "name": "user",
-            "in": "body",
-            "description": "User with new values of properties",
+            "name": "playerName",
+            "in": "path",
+            "required": true,
+            "description": "Player's name",
             "schema": {
-              "$ref": "#/definitions/User"
+              "type": "string",
+              "example": "Alex"
             }
           }
         ],
         "responses": {
           "200": {
-            "description": "User is updated",
+            "description": "Ok",
             "schema": {
-              "$ref": "#/definitions/User"
+              "$ref": "#/definitions/Rank"
             }
+          },
+          "500": {
+            "description": "Unexpected error."
           }
         }
       }
     }
   },
   "definitions": {
-    "User": {
+    "Player": {
       "required": [
-        "email",
-        "_id"
+        "name",
+        "score"
       ],
       "properties": {
-        "_id": {
+        "name": {
           "type": "string",
-          "uniqueItems": true
+          "uniqueItems": true,
+          "example": "Alex"
         },
-        "email": {
-          "type": "string",
-          "uniqueItems": true
-        },
-        "lastName": {
-          "type": "string"
-        },
-        "firstName": {
-          "type": "string"
+        "score": {
+          "type": "integer",
+          "example": 125
         }
       }
     },
-    "Users": {
-      "type": "array",
-      "$ref": "#/definitions/User"
+    "Rank": {
+      "required": [
+        "name",
+        "score",
+        "rank",
+        "total"
+      ],
+      "properties": {
+        "name": {
+          "type": "string",
+          "uniqueItems": true,
+          "example": "Alex"
+        },
+        "score": {
+          "type": "integer",
+          "example": 125
+        },
+        "rank": {
+          "type": "integer",
+          "example": 3
+        },
+        "total": {
+          "type": "integer",
+          "example": 1100025
+        }
+      }
     }
   }
 }

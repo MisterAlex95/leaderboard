@@ -10,6 +10,7 @@
     "cover": "nyc npm run test",
     "check-coverage": "nyc check-coverage --statements 100 --branches 100 --functions 100 --lines 100",
     "start": "node server.js",
+    "live": "nodemon server.js",
     "migrate": "node_modules/.bin/sequelize db:migrate"
   },
   "author": "Alex Dana",
