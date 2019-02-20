@@ -10,11 +10,12 @@ const { checkParameters } = require('../controllers/api/addScore');
 const { rateLimiter } = require('../redis/RateLimiter');
 
 chai.config.includeStack = true;
+const second = new Date().getSeconds();
 
 // Test missing parameters
 describe('Test methods', () => {
   describe('test checkParameters', () => {
-    it ('', (done) => {
+    it('', (done) => {
       let req = {};
       let res = {};
       req.params = {};
@@ -30,9 +31,44 @@ describe('Test methods', () => {
   });
 
   describe('test rateLimiter', (done) => {
-    it ('', (done) => {
-      rateLimiter("alex", (ret) => {
+    it('rate limiter say ok', (done) => {
+      rateLimiter(`alex:${second}`, (ret) => {
         expect(ret).to.equal(true);
+        done();
+      });
+    });
+
+    it('rate limiter say ok', (done) => {
+      rateLimiter(`alex:${second}`, (ret) => {
+        expect(ret).to.equal(true);
+        done();
+      });
+    });
+
+    it('rate limiter say ok', (done) => {
+      rateLimiter(`alex:${second}`, (ret) => {
+        expect(ret).to.equal(true);
+        done();
+      });
+    });
+
+    it('rate limiter say ok', (done) => {
+      rateLimiter(`alex:${second}`, (ret) => {
+        expect(ret).to.equal(true);
+        done();
+      });
+    });
+
+    it('rate limiter say ok', (done) => {
+      rateLimiter(`alex:${second}`, (ret) => {
+        expect(ret).to.equal(true);
+        done();
+      });
+    });
+
+    it('rate limiter say nop', (done) => {
+      rateLimiter(`alex:${second}`, (ret) => {
+        expect(ret).to.equal(false);
         done();
       });
     });
