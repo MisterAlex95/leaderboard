@@ -13,7 +13,7 @@ chai.use(chaiHttp);
 const second = new Date().getSeconds();
 
 // Test missing parameters
-describe('Test missing parameters', () => {
+describe('Test missing or wrong parameters', () => {
   describe('/GET rank', () => {
     it('it should have a 404 error: no user', (done) => {
       chai.request(server)
@@ -32,6 +32,15 @@ describe('Test missing parameters', () => {
           done();
         });
     });
+
+    it('it should have a 500 error: username not authorized', (done) => {
+      chai.request(server)
+        .get('/leaderboard/rank/*;')
+        .end((err, res) => {
+          res.should.have.status(500);
+          done();
+        });
+    });
   });
 
   describe('/POST score', () => {
@@ -39,6 +48,16 @@ describe('Test missing parameters', () => {
       chai.request(server)
         .post(`/leaderboard/add/Alex:${second}`)
         .send({})
+        .end((err, res) => {
+          res.should.have.status(500);
+          done();
+        });
+    });
+
+    it('it should have a 500 error: username not authorized', (done) => {
+      chai.request(server)
+        .post('/leaderboard/add/*;')
+        .send({ score: 135 })
         .end((err, res) => {
           res.should.have.status(500);
           done();
