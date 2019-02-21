@@ -11,12 +11,20 @@ const db = require('../../models/');
  */
 function checkParameters(res, req) {
   const name = req.params.playerName;
+  const regex = /[^a-zA-Z-_\d\s:]/;
 
   if (name === null || name === '') {
     return {
       error: 'Missing player name parameter'
     };
   }
+
+  if (name.match(regex)) {
+    return {
+      error: 'Player name not authorized'
+    };
+  }
+
   return { name: name };
 }
 
@@ -29,8 +37,9 @@ function checkParameters(res, req) {
 async function sequelizeQuery(parameters, res) {
   const players = await db
     .sequelize.query(`SELECT *, (SELECT COALESCE(MAX(id), 0) FROM Players) as total FROM (SELECT *, RANK() OVER (ORDER BY score DESC) rank FROM Players) WHERE name = '${parameters.name}'`, {
-      model: Player });
-      
+      model: Player
+    });
+
   if (players.length == 0)
     return res.status(404).json({ message: "Player is not found" }).end();
 

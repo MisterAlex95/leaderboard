@@ -48,7 +48,7 @@ async function gestionScore(parameters, res) {
     return createPlayerScore(parameters, res)
   } else {
     return updatePlayerScore(parameters, res);
-  }  
+  }
 }
 
 /**
@@ -62,14 +62,20 @@ function checkParameters(res, req) {
   let score = req.body.score;
 
   if (name === null) {
-    return {error: 'Missing player name parameter'};
+    return { error: 'Missing player name parameter' };
   }
   if (score === null) {
-    return {error: 'Missing score parameter' };
+    return { error: 'Missing score parameter' };
   }
   score = Number(score);
   if (isNaN(score)) {
-    return {error:  'Score should be a number' };
+    return { error: 'Score should be a number' };
+  }
+  const regex = /[^a-zA-Z-_\d\s:]/;
+  if (name.match(regex)) {
+    return {
+      error: 'Player name not authorized'
+    };
   }
 
   return {
