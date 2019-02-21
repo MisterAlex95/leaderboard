@@ -1,5 +1,5 @@
 if (!process.env.NODE_ENV) process.env.NODE_ENV = 'development';
-if (process.env.NODE_ENV === 'development') require('dotenv').config();
+if (process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'test') require('dotenv').config();
 
 var swaggerUi = require('swagger-ui-express'),
   swaggerDocument = require('./documentation/swagger.json');

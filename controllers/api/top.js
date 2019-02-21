@@ -9,7 +9,11 @@ router.get('/', function (req, res) {
       limit: 3
     })
     .then((players) => {
-      res.json(players).end();
+      let top = [];
+      players.map((player) => {
+        top.push({ name: player.name, score: player.score });
+      });
+      res.json({ top: top }).end();
     })
     .catch((err) => {
       res.status(500).json({ message: "An unhandled exception happened" }).end();
