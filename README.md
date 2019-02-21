@@ -17,6 +17,14 @@ You can access to the documentation of the API by running the node instance and 
 
 ---
 
+## Try the API
+
+You can access to the documentation and test the API from this link:
+ - `leaderboard.alexdana.me/documentation` 
+ - `leaderboard.alexdana.me/leaderboard/` 
+
+---
+
 ## Docker
  To generate the image:
  ```bash
@@ -34,6 +42,12 @@ To start the project with the image :
  docker run -d --net redis-node --name instance_redis redis
  docker run -d --net redis-node -p 3001:3001 --name instance_node leaderboard
  ```
+
+To reset all instance:
+```bash
+docker kill $(docker ps -q)
+docker rm $(docker ps -a -q)
+```
 
 ---
 
