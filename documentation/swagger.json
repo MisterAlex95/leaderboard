@@ -5,7 +5,7 @@
     "title": "Leaderboard API",
     "description": "Leaderboard API"
   },
-  "host": "leaderboard.alexdana.me/",
+  "host": "leaderboard.alexdana.me",
   "basePath": "/leaderboard/",
   "tags": [
     {
