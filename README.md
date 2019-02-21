@@ -119,8 +119,6 @@ sudo apt update
 sudo apt install nodejs npm
 ```
 
-
-
 ## PM2
 You only need to install it using npm or yarn
 ```bash
@@ -128,3 +126,16 @@ npm install pm2 -g
 ```
 
 ---
+
+# How to run it
+
+You need to run an instance of redis:
+```bash
+redis-server
+```
+
+and launch a node instance:
+```bash
+NODE_ENV=production npm start
+```
+If the `NODE_ENV` is mission the project will be run in development mode.
