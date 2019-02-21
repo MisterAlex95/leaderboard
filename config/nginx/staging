@@ -1,0 +1,26 @@
+upstream api_leaderboard_staging {
+  server 127.0.0.1:3001;
+}
+
+server {
+  listen 80;
+  listen [::]:80;
+  server_name leaderboard-staging.alexdana.me;
+
+  access_log /home/deploy/leaderboard_staging/current/log/nginx_access.log;
+  error_log /home/deploy/leaderboard_staging/current/log/nginx_error.log;
+
+  location @api_leaderboard_staging {
+    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    proxy_set_header Host $http_host;
+    proxy_redirect off;
+    proxy_set_header X-Forwarded-Proto https;
+    proxy_pass http://api_leaderboard_staging;
+  }
+
+  if ($request_method !~ ^(GET|HEAD|PUT|PATCH|POST|DELETE|OPTIONS)$ ){
+    return 405;
+  }
+  
+  try_files $uri @api_leaderboard_staging;
+}

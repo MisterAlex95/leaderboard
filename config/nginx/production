@@ -1,0 +1,26 @@
+upstream api_leaderboard {
+  server 127.0.0.1:3001;
+}
+
+server {
+  listen 80;
+  listen [::]:80;
+  server_name leaderboard.alexdana.me;
+
+  access_log /home/deploy/leaderboard/current/log/nginx_access.log;
+  error_log /home/deploy/leaderboard/current/log/nginx_error.log;
+
+  location @api_leaderboard {
+    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    proxy_set_header Host $http_host;
+    proxy_redirect off;
+    proxy_set_header X-Forwarded-Proto https;
+    proxy_pass http://api_leaderboard;
+  }
+
+  if ($request_method !~ ^(GET|HEAD|PUT|PATCH|POST|DELETE|OPTIONS)$ ){
+    return 405;
+  }
+  
+  try_files $uri @api_leaderboard;
+}
