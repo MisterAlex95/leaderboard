@@ -5,7 +5,7 @@
     "title": "Leaderboard API",
     "description": "Leaderboard API"
   },
-  "host": "0.0.0.0:3000",
+  "host": "0.0.0.0:3001",
   "basePath": "/leaderboard/",
   "tags": [
     {
