@@ -70,7 +70,7 @@ docker rm $(docker ps -a -q)
 
 ### How to setup without docker
 
-We will need differents tools : redis, node and npm (or yarn).
+We will need differents tools : redis, node, npm (or yarn) and pm2.
 
 ## Redis
 
@@ -118,4 +118,13 @@ For ubuntu:
 sudo apt update
 sudo apt install nodejs npm
 ```
+
+
+
+## PM2
+You only need to install it using npm or yarn
+```bash
+npm install pm2 -g
+```
+
 ---
