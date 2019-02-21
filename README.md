@@ -1,6 +1,6 @@
 # Leaderboard
 
-## What is the benefit of using Redis to implement the rate limiter? 
+## _What is the benefit of using Redis to implement the rate limiter?_
 
 Using Redis to implement the rate limiter 
 Use Redis in the implementation of the rate limiter to save the database of calls that could overload. 
@@ -9,30 +9,37 @@ Especially in our case, we use SQLite which has a system of "Concurrent Access" 
 
 Redis has specifics functions to implement a rate limiter like `expire` which use to specify a lifetime of a key.
 
-## OLD README
+---
 
-## How to setup
+## Documentation
 
-I assume that you already use a `terminal` and know how it works. 
-
-We will need differents tools : redis, node and npm (or yarn).
-
-### Prerequisites
-#### OSX
-On `OSX` we will use `brew` you can download it using this command line:
-```bash
-/usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
-```
-After this, you can install wget using:
-```bash
-brew install wget
-```
-#### Unix/Linux
-*On `Ubuntu` or other `linux's distribution` I assume you already have wget.*
+You can access to the documentation of the API by running the node instance and access to `localhost:3001/documentation` 
 
 ---
 
-### Redis
+## Docker
+ To generate the image:
+ ```bash
+  docker build -t leaderboard .
+```
+
+To start the project with the image :
+```bash
+ docker pull redis
+ docker network create redis-node
+ docker run -d --net redis-node --name instance_redis redis
+ docker run -d --net redis-node -p 3001:3001 --name instance_node leaderboard
+ ```
+
+---
+
+# Setup
+
+### How to setup without docker
+
+We will need differents tools : redis, node and npm (or yarn).
+
+## Redis
 
 First you need to install `redis`.
 
@@ -56,20 +63,14 @@ make
 sudo make install
 ```
 
-If you are on Windows download from this page: https://github.com/dmajkic/redis/downloads
-the `redis-2.4.5-win32-win64.zip`
-
 Now you have : `redis-cli`, `redis-benchmark`, `redis-check-aof`, `redis-check-rdb`, `redis-sentinel` and `redis-server`.
 
-*/!\ If any errors happens let's check the `redis.io` website.*
 
-
-### NodeJS
+## NodeJS
 
 Next, you need to install NodeJS if you don't have it.
 
 #### OSX
-Like you previously installed `brew`, you just have to execute this command line:
 ```bash
 brew install node
 ```
@@ -84,19 +85,4 @@ For ubuntu:
 sudo apt update
 sudo apt install nodejs npm
 ```
-For any else distribution report to this page https://nodejs.org/en/download/package-manager/
-
-
 ---
-
-### Docker
- To generate the image:
- ```bash
- docker build -t alex/leaderboard .
- ```
-
-Questions:
-
- - Si il y a des requêtes erronées type POST sans score ou sans playerName je dois seulement renvoyer une réponse avec le status 500 ou je peux specifier le message ("Header parameter 'PlayerName' is missing." ou "Body parameter 'score' is missing") ? (Ce qui me semble plus utile pour le potentiel client.)
- - Je peux utiliser les libs que je souhaite (je pense notamment à sequelize) ?
-
