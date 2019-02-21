@@ -129,6 +129,13 @@ npm install pm2 -g
 
 # How to run it
 
+You need to prepare the project:
+```bash
+npm install
+node_modules/.bin/sequelize db:migrate
+node_modules/.bin/sequelize db:seed:all # If you want to add 100.000 entries
+```
+
 You need to run an instance of redis:
 ```bash
 redis-server
