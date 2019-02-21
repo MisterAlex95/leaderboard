@@ -31,7 +31,7 @@ module.exports = {
       'post-deploy': '. ~/.bashrc &&  docker build -t leaderboard . && docker run -d --net redis-node -p 3001:3001 --name instance_node leaderboard',
       // 'post-deploy': '. ~/.bashrc && npm install && pm2 reload ecosystem.config.js --env staging && npm run bundle',
       env: {
-        NODE_ENV: 'staging',
+        NODE_ENV: 'production',
       }
     }
   }
