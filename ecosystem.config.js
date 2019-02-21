@@ -13,7 +13,7 @@ module.exports = {
     production: {
       user: 'deploy',
       host: 'alexdana.me',
-      ref: 'origin/master',
+      ref: 'origin/develop',
       repo: 'git@github.com:misteralex95/leaderboard.git',
       path: '/home/deploy/leaderboard',
       'post-deploy': '. ~/.bashrc &&  docker build -t leaderboard . && docker run -d --net redis-node -p 3001:3001 --name instance_node leaderboard',
@@ -28,7 +28,8 @@ module.exports = {
       ref: 'origin/develop',
       repo: 'git@github.com:misteralex95/leaderboard.git',
       path: '/home/deploy/leaderboard',
-      'post-deploy': '. ~/.bashrc && npm install && pm2 reload ecosystem.config.js --env staging && npm run bundle',
+      'post-deploy': '. ~/.bashrc &&  docker build -t leaderboard . && docker run -d --net redis-node -p 3001:3001 --name instance_node leaderboard',
+      // 'post-deploy': '. ~/.bashrc && npm install && pm2 reload ecosystem.config.js --env staging && npm run bundle',
       env: {
         NODE_ENV: 'staging',
       }
