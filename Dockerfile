@@ -3,6 +3,9 @@ FROM node:10
 # Create app directory
 WORKDIR /home/deploy/leaderboard
 
+# Declaration of the environement of the project
+ENV NODE_ENV=production
+
 # Install app dependencies
 # A wildcard is used to ensure both package.json AND package-lock.json are copied
 # where available (npm@5+)
