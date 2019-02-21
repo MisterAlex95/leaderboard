@@ -85,8 +85,10 @@ describe('Test empty database', () => {
         .get('/leaderboard/top')
         .end((err, res) => {
           res.should.have.status(200);
-          res.body.should.be.a('array');
-          res.body.length.should.be.eql(0);
+          res.body.should.be.a('object');
+          res.body.top.should.be.a('array');
+          res.body.top.length.should.be.eql(0);
+
           done();
         });
     });

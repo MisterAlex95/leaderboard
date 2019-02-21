@@ -138,4 +138,4 @@ and launch a node instance:
 ```bash
 NODE_ENV=production npm start
 ```
-If the `NODE_ENV` is mission the project will be run in development mode.
+If the `NODE_ENV` is missing the project will be run in development mode.
