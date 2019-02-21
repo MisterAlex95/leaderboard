@@ -11,7 +11,7 @@ const jsonParser = require('body-parser').json();
 
 const app = express();
 const server = require('http').Server(app);
-const PORT = process.env.SERVER_PORT || 3000;
+const PORT = process.env.SERVER_PORT || 3001;
 
 app.use(cors());
 

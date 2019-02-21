@@ -23,10 +23,14 @@ You can access to the documentation of the API by running the node instance and 
   docker build -t leaderboard .
 ```
 
+Prepare the environement:
+```bash
+ docker pull redis # Download an instance of redis
+ docker network create redis-node # create a network to let the redis instance and our instance (node) communicate
+```
+
 To start the project with the image :
 ```bash
- docker pull redis
- docker network create redis-node
  docker run -d --net redis-node --name instance_redis redis
  docker run -d --net redis-node -p 3001:3001 --name instance_node leaderboard
  ```
