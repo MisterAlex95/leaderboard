@@ -25,6 +25,21 @@ You can access to the documentation and test the API from this link:
 
 ---
 
+## How to deploy
+
+You can deploy this project using `pm2`.
+To setup a first deployement
+```bash
+pm2 deploy production setup
+```
+
+and to deploy the project:
+```bash
+pm2 deploy production
+```
+
+---
+
 ## Docker
  To generate the image:
  ```bash
