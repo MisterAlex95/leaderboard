@@ -17,7 +17,7 @@ module.exports = {
       repo: 'git@github.com:misteralex95/leaderboard.git',
       path: '/home/deploy/leaderboard',
       'pre-deploy': '. ~/.bashrc && docker kill $(docker ps -q) && docker rm $(docker ps -a -q)',
-      'post-deploy': '. ~/.bashrc && docker build -t leaderboard . && docker run -d --net redis-node -p 3001:3001 --name instance_node leaderboard',
+      'post-deploy': '. ~/.bashrc && docker build -t leaderboard . && docker run -d --net redis-node -p 3001:3001 --name instance_node leaderboard && docker run -d --net redis-node --name instance_redis redis',
       // 'post-deploy' : '. ~/.bashrc && npm install && pm2 reload ecosystem.config.js --env production && npm run bundle',
       env: {
         NODE_ENV: 'production',
@@ -30,7 +30,7 @@ module.exports = {
       repo: 'git@github.com:misteralex95/leaderboard.git',
       path: '/home/deploy/leaderboard',
       'pre-deploy': '. ~/.bashrc && docker kill $(docker ps -q) && docker rm $(docker ps -a -q)',
-      'post-deploy': '. ~/.bashrc &&  docker build -t leaderboard . && docker run -d --net redis-node -p 3001:3001 --name instance_node leaderboard',
+      'post-deploy': '. ~/.bashrc &&  docker build -t leaderboard . && docker run -d --net redis-node -p 3001:3001 --name instance_node leaderboard && docker run -d --net redis-node --name instance_redis redis',
       // 'post-deploy': '. ~/.bashrc && npm install && pm2 reload ecosystem.config.js --env staging && npm run bundle',
       env: {
         NODE_ENV: 'staging',
